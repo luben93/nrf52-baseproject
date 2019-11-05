@@ -65,13 +65,16 @@ int main(void)
 {
   /* Configure board. */
   bsp_board_init(BSP_INIT_LEDS);
-  nrf_gpio_range_cfg_output(0,25);
+
     for (int i = 0; i < 25; i++)
     {
         printf("Hello, World! %d\n",i);
-
-        nrf_gpio_pin_write(i,0);
+        nrf_gpio_range_cfg_input(0,33,NRF_GPIO_PIN_PULLUP);
     }
+    nrf_gpio_cfg_output(14);
+    nrf_gpio_cfg_output(16);
+
+    nrf_gpio_range_cfg_output(22,23);
   NRF_LOG_INIT(nullptr);
   NRF_LOG_DEFAULT_BACKENDS_INIT();
 
@@ -80,15 +83,19 @@ int main(void)
   {
     NRF_LOG_PROCESS();
 
+        int charging = nrf_gpio_pin_read(12);
+        int voltage = nrf_gpio_pin_read(31);
+
         nrf_gpio_pin_toggle(23);
         nrf_delay_ms(400);
 
         nrf_gpio_pin_toggle(22);
         nrf_delay_ms(400);
 
-        nrf_gpio_pin_toggle(14);
-
-        nrf_delay_ms(400);
+      nrf_gpio_pin_write(16,0);
+      nrf_delay_ms(40);
+      nrf_gpio_pin_toggle(16);
+      nrf_delay_ms(400);
 
     NRF_LOG_INFO("coucou\n");
     NRF_LOG_FLUSH();
