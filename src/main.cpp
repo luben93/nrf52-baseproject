@@ -65,7 +65,7 @@ int main(void)
 {
   /* Configure board. */
   bsp_board_init(BSP_INIT_LEDS);
-
+  nrf_gpio_range_cfg_output(0,25);
   NRF_LOG_INIT(nullptr);
   NRF_LOG_DEFAULT_BACKENDS_INIT();
 
@@ -73,12 +73,13 @@ int main(void)
   while (true)
   {
     NRF_LOG_PROCESS();
-    for (int i = 0; i < LEDS_NUMBER; i++)
+    for (int i = 0; i < 25; i++)
     {
         bsp_board_led_invert(i);
+        printf("Hello, World! %d\n",i);
 
-        nrf_delay_ms(200);
-
+        nrf_gpio_pin_toggle(i);
+        nrf_delay_ms(400);
     }
     NRF_LOG_INFO("coucou\n");
     NRF_LOG_FLUSH();
