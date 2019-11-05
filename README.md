@@ -31,6 +31,13 @@ $ cmake -DCMAKE_BUILD_TYPE=Debug -DARM_NONE_EABI_TOOLCHAIN_PATH=... -DNRF5_SDK_P
 $ make -j
 ```  
 
+##STlink
+on a unlocked nrf52 chip, flash the software with
+```
+/usr/bin/openocd -c "tcl_port disabled" -s /usr/share/openocd/scripts -c "gdb_port 3333" -c "telnet_port 4444" -f ./pinetime.cfg -c "program \"./cmake-build-debug/src/application-example.out\"" -c "init;reset init;"
+```
+
+
 ## RTT
 
 RTT is a feature from Segger's JLink devices that allows bidirectionnal communication between the debugger and the target.
